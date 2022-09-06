@@ -22,7 +22,7 @@ function scpopLoad(selector){
         let tmpElm = <HTMLLinkElement>elm;
         if(/\.(jpg|jpeg|png|webp|gif|svg)$/.test(tmpElm.href.toLowerCase())){
             let tmpCaption = '';
-            if(elm.getAttribute('title')!=null){
+            if(elm.getAttribute('title')!=null && elm.getAttribute('title')!=''){
                 tmpCaption = `<div class="scpop__item_caption">` + elm.getAttribute('title') + `</div>`;
             }
             slides.push(`<div class="scpop__item" id="scpop_` + pop + `_` + indx + `"><img alt="" data-src="` + tmpElm.href + `" />` + tmpCaption + `</div>`);
@@ -32,7 +32,7 @@ function scpopLoad(selector){
         if(tmpElm.classList.contains('scpopiframe')){
             //add iframe popup
             let tmpCaption = '';
-            if(elm.getAttribute('title')!=null){
+            if(elm.getAttribute('title')!=null && elm.getAttribute('title')!=''){
                 tmpCaption = `<div class="scpop__item_caption">` + elm.getAttribute('title') + `</div>`;
             }
             
@@ -51,9 +51,9 @@ function scpopLoad(selector){
     let tmpDiv = (<HTMLDivElement>document.createElement('div'));
     tmpDiv.className = 'scpop scpop' + pop;
     tmpDiv.innerHTML = `<div class="scpop__toolbar">
-                            <a class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);">╳</a>
-                            <a class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);">🡠</a>
-                            <a class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);">🡢</a>
+                            <a class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);">&#215;</a>
+                            <a class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);">&#171;</a>
+                            <a class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);">&#187;</a>
                         </div>
                         <div class="scpop__inner">` + slides.join("") + `</div>`;
     document.body.appendChild(tmpDiv);

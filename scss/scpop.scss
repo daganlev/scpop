@@ -28,7 +28,7 @@ body.scpopshow{overflow: hidden;}
         a{
             text-decoration: none;
             color: #fff;
-            font-size: 20px;
+            font-size: 40px;
             font-weight: bold;
             text-shadow: 0px 0px 10px rgba(#000, 0.6);
             position: absolute;
@@ -39,12 +39,10 @@ body.scpopshow{overflow: hidden;}
             right: 15px;
         }
         &_prev{
-            font-size: 30px !important;
             top: calc(50vh - 20px);
             left: 15px;
         }
         &_next{
-            font-size: 30px !important;
             top: calc(50vh - 20px);
             right: 15px;
         }
@@ -59,6 +57,9 @@ body.scpopshow{overflow: hidden;}
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
+        &::-webkit-scrollbar{
+            display: none;
+        }
     }
     
     &__item{
