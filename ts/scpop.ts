@@ -72,7 +72,10 @@ function scpopLoad(selector){
                     slide.target.querySelector('iframe').setAttribute('src', slide.target.querySelector('iframe').getAttribute('data-src'));
                     slide.target.querySelector('iframe').removeAttribute('data-src');                            
                 }
-                scpop.pops[pop].currentSlide = parseInt(slide.target.id.replace('scpop_' + pop + '_',''));                        
+                scpop.pops[pop].currentSlide = parseInt(slide.target.id.replace('scpop_' + pop + '_',''));   
+                
+                //check whether to show next and previous buttons
+                scpopcheckPrevNextButtons(pop);             
             }
         });
         
@@ -107,6 +110,8 @@ function scpopShow(pop, slide){
             initSlide2.setAttribute('src', initSlide2.getAttribute('data-src'));
             initSlide2.removeAttribute('data-src');                            
         }
+
+        scpopcheckPrevNextButtons(pop);
     }
     scpop.scpopShowing = true;
     scpopSlideTo(pop, slide);
@@ -150,4 +155,21 @@ function scpopNext(pop){
         tmpSlide = 0;
     }
     scpopSlideTo(pop, tmpSlide);
+}
+function scpopcheckPrevNextButtons(pop){
+    let slides = document.querySelectorAll('.scpop' + pop + ' .scpop__item').length;
+    let tmpCurrentSlide = scpop.pops[pop].currentSlide;
+    let prev = <HTMLDivElement>document.querySelector('.scpop' + pop + ' .scpop__toolbar_prev');
+    let next = <HTMLDivElement>document.querySelector('.scpop' + pop + ' .scpop__toolbar_next');
+
+    prev.style.display = 'none';
+    next.style.display = 'none';
+
+    if(tmpCurrentSlide > 0){
+        prev.style.display = 'block';
+    }
+
+    if(tmpCurrentSlide < (slides-1)){
+        next.style.display = 'block';
+    }    
 }

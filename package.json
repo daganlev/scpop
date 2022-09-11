@@ -9,6 +9,7 @@
     "cssnano": "^5.0.8",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
+    "gulp-header": "^2.0.9",
     "gulp-postcss": "^9.0.1",
     "gulp-sass": "^5.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
