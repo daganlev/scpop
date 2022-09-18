@@ -50,12 +50,14 @@ function scpopLoad(selector){
 
     let tmpDiv = (<HTMLDivElement>document.createElement('div'));
     tmpDiv.className = 'scpop scpop' + pop;
-    tmpDiv.innerHTML = `<div class="scpop__toolbar">
-                            <a class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);">&#215;</a>
-                            <a class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);">&#171;</a>
-                            <a class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);">&#187;</a>
-                        </div>
-                        <div class="scpop__inner">` + slides.join("") + `</div>`;
+    let tmpTxt = `<div class="scpop__toolbar">`;
+    tmpTxt += `<a class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);">&#215;</a>`;
+    tmpTxt += `<a class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);">&#171;</a>`;
+    tmpTxt += `<a class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);">&#187;</a>`;
+    tmpTxt += `</div>`;
+    tmpTxt += `<div class="scpop__inner">` + slides.join("") + `</div>`;
+
+    tmpDiv.innerHTML = tmpTxt;
     document.body.appendChild(tmpDiv);
 
     //add observers            
