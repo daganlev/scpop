@@ -42,6 +42,13 @@ function scpopLoad(selector){
             if(srcMatchs){
                 src = 'https://www.youtube.com/embed/' + srcMatchs[1] + '?autoplay=1';
             }
+
+            //check if Vimeo URL convert to embed URL
+            let srcMatchVimeos = src.match(/^https\:\/\/vimeo.com\/(\d+)$/i);
+            if(srcMatchVimeos){
+                src = 'https://player.vimeo.com/video/' + srcMatchVimeos[1] + '?autoplay=1';
+            }
+
             slides.push(`<div class="scpop__item" id="scpop_` + pop + `_` + indx + `"><iframe frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-src="` + src + `"></iframe>` + tmpCaption + `</div>`);
             tmpElm.href = 'javascript:scpopShow(' + pop + ',' + indx + ');';
             tmpElm.removeAttribute('target');
