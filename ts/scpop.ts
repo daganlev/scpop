@@ -25,7 +25,7 @@ function scpopLoad(selector){
             if(elm.getAttribute('title')!=null && elm.getAttribute('title')!=''){
                 tmpCaption = `<div class="scpop__item_caption">` + elm.getAttribute('title') + `</div>`;
             }
-            slides.push(`<div class="scpop__item" id="scpop_` + pop + `_` + indx + `"><img alt="" data-src="` + tmpElm.href + `" />` + tmpCaption + `</div>`);
+            slides.push(`<div class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><img alt="" data-src="` + tmpElm.href + `" />` + tmpCaption + `</div>`);
             tmpElm.href = 'javascript:scpopShow(' + pop + ',' + indx + ');';
             tmpElm.removeAttribute('target');
         }
@@ -49,7 +49,7 @@ function scpopLoad(selector){
                 src = 'https://player.vimeo.com/video/' + srcMatchVimeos[1] + '?autoplay=1';
             }
 
-            slides.push(`<div class="scpop__item" id="scpop_` + pop + `_` + indx + `"><iframe frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-src="` + src + `"></iframe>` + tmpCaption + `</div>`);
+            slides.push(`<div class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><iframe frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-src="` + src + `"></iframe>` + tmpCaption + `</div>`);
             tmpElm.href = 'javascript:scpopShow(' + pop + ',' + indx + ');';
             tmpElm.removeAttribute('target');
         }
