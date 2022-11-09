@@ -17,7 +17,16 @@ function scpopLoad(selector){
     let pop = scpop.pops.length-1;
 
     let slides = [];
-    document.querySelectorAll(selector + ' a').forEach(function(elm){
+
+    var linkItems: any;
+    if(typeof selector === "string"){
+        linkItems = document.querySelectorAll(selector + ' a');
+    }
+    if(typeof selector === "object"){
+        linkItems = selector.querySelectorAll('a');
+    }
+
+    linkItems.forEach(function(elm){
         let indx = slides.length;
         let tmpElm = <HTMLLinkElement>elm;
         if(/\.(jpg|jpeg|png|webp|gif|svg)$/.test(tmpElm.href.toLowerCase())){
