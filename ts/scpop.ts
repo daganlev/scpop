@@ -10,6 +10,21 @@ window.addEventListener('load', function(){
     cssscript.rel = 'stylesheet';
     cssscript.href = CSSURL;
     document.head.appendChild(cssscript);
+
+    // Add keyboard control
+    // @ts-ignore
+    document.addEventListener('keydown', function(evt){
+        if(document.body.classList.contains('scpopshow')){
+            if(evt.key=='ArrowRight'){
+                // @ts-ignore
+                document.querySelector('.scpop.show .scpop__toolbar_next').click();
+            }
+            if(evt.key=='ArrowLeft'){
+                // @ts-ignore
+                document.querySelector('.scpop.show .scpop__toolbar_prev').click();
+            }
+        }
+    });
 });
 
 function scpopLoad(selector){
