@@ -2,6 +2,7 @@ let scpop = {
     scpopShowing: false,
     pops: []
 };
+let SCPopActiveElement = null;
 
 //Load CSS
 window.addEventListener('load', function(){
@@ -46,10 +47,12 @@ function scpopLoad(selector){
         let tmpElm = <HTMLLinkElement>elm;
         if(/\.(jpg|jpeg|png|webp|gif|svg)$/.test(tmpElm.href.toLowerCase())){
             let tmpCaption = '';
+            let alt = '';
             if(elm.getAttribute('title')!=null && elm.getAttribute('title')!=''){
                 tmpCaption = `<div class="scpop__item_caption">` + elm.getAttribute('title') + `</div>`;
+                alt = elm.getAttribute('title').replace('"',"'");
             }
-            slides.push(`<div class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><img alt="" data-src="` + tmpElm.href + `" />` + tmpCaption + `</div>`);
+            slides.push(`<div role="listitem" class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><img alt="` + alt + `" data-src="` + tmpElm.href + `" />` + tmpCaption + `</div>`);
             tmpElm.href = 'javascript:scpopShow(' + pop + ',' + indx + ');';
             tmpElm.removeAttribute('target');
         }
@@ -73,7 +76,7 @@ function scpopLoad(selector){
                 src = 'https://player.vimeo.com/video/' + srcMatchVimeos[1] + '?autoplay=1';
             }
 
-            slides.push(`<div class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><iframe frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-src="` + src + `"></iframe>` + tmpCaption + `</div>`);
+            slides.push(`<div role="listitem" class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><iframe frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-src="` + src + `"></iframe>` + tmpCaption + `</div>`);
             tmpElm.href = 'javascript:scpopShow(' + pop + ',' + indx + ');';
             tmpElm.removeAttribute('target');
         }
@@ -82,11 +85,11 @@ function scpopLoad(selector){
     let tmpDiv = (<HTMLDivElement>document.createElement('div'));
     tmpDiv.className = 'scpop scpop' + pop;
     let tmpTxt = `<div class="scpop__toolbar">`;
-    tmpTxt += `<a class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);">&#215;</a>`;
-    tmpTxt += `<a class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);">&#171;</a>`;
-    tmpTxt += `<a class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);">&#187;</a>`;
+    tmpTxt += `<a class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);"><span class="scpop-sr-only">Close</span>&#215;</a>`;
+    tmpTxt += `<a class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);"><span class="scpop-sr-only">Previous item</span>&#171;</a>`;
+    tmpTxt += `<a class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);"><span class="scpop-sr-only">Next item</span>&#187;</a>`;
     tmpTxt += `</div>`;
-    tmpTxt += `<div class="scpop__inner">` + slides.join("") + `</div>`;
+    tmpTxt += `<div role="list" class="scpop__inner">` + slides.join("") + `</div>`;
 
     tmpDiv.innerHTML = tmpTxt;
     document.body.appendChild(tmpDiv);
@@ -126,6 +129,10 @@ function scpopSlideTo(pop, slide){
     document.querySelector('.scpop' + pop + ' .scpop__inner').scrollLeft = (<HTMLDivElement>document.querySelectorAll('.scpop' + pop + ' .scpop__item')[slide]).offsetLeft;
 }
 function scpopShow(pop, slide){
+    SCPopActiveElement = document.activeElement;
+
+    scpopCreateFocusSandBox();
+    
     //disable smooth sliding for first slide to show
     (<HTMLDivElement>document.querySelector('.scpop' + pop + ' .scpop__inner')).style.scrollBehavior = 'unset';
 
@@ -154,7 +161,49 @@ function scpopShow(pop, slide){
         (<HTMLDivElement>document.querySelector('.scpop' + pop + ' .scpop__inner')).style.scrollBehavior = 'smooth';
     }, 300);
 }
+
+//feature to generate a focus only on the poup when is opened
+let scpopTrackTabStatus = -1;
+function scpopCreateFocusSandBox(){
+    scpopTrackTabStatus = -1;
+    document.addEventListener("keydown", scpopTrackKeys, true);
+}
+function scpopTrackKeys(e){    
+    if(!(e.key === 'Tab' || e.keyCode === 9)){
+        return;
+    }
+
+    if(e.shiftKey){
+        scpopTrackTabStatus--;
+        if(scpopTrackTabStatus<0)
+            scpopTrackTabStatus = 2;
+    }else{
+        scpopTrackTabStatus++;
+        if(scpopTrackTabStatus>=3)
+            scpopTrackTabStatus = 0;
+    }
+
+    switch(scpopTrackTabStatus){
+        case 0:
+            (<HTMLDivElement>document.querySelector('.scpop.show .scpop__toolbar_close')).focus();
+            break;
+        case 1:
+            (<HTMLDivElement>document.querySelector('.scpop.show .scpop__toolbar_prev')).focus();
+            break;
+        case 2:
+            (<HTMLDivElement>document.querySelector('.scpop.show .scpop__toolbar_next')).focus();
+            break;
+    }
+
+    e.preventDefault(); //do nothing
+}
+function scpopDestroyFocusSandBox(){
+    document.removeEventListener("keydown", scpopTrackKeys, true);
+}
+    
 function scpopClose(pop){
+    SCPopActiveElement.focus();
+    scpopDestroyFocusSandBox();
     scpop.scpopShowing = false;
     (<HTMLDivElement>document.querySelector('.scpop' + pop)).style.opacity = '0';
     window.setTimeout(function(){
