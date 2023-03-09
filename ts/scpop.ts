@@ -84,10 +84,10 @@ function scpopLoad(selector){
 
     let tmpDiv = (<HTMLDivElement>document.createElement('div'));
     tmpDiv.className = 'scpop scpop' + pop;
-    let tmpTxt = `<div class="scpop__toolbar">`;
-    tmpTxt += `<a class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);"><span class="scpop-sr-only">Close</span>&#215;</a>`;
-    tmpTxt += `<a class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);"><span class="scpop-sr-only">Previous item</span>&#171;</a>`;
-    tmpTxt += `<a class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);"><span class="scpop-sr-only">Next item</span>&#187;</a>`;
+    let tmpTxt = `<div role="list" class="scpop__toolbar">`;
+    tmpTxt += `<a role="listitem" class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);"><span class="scpop-sr-only">Close</span>&#215;</a>`;
+    tmpTxt += `<a role="listitem" class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);"><span class="scpop-sr-only">Previous item</span>&#171;</a>`;
+    tmpTxt += `<a role="listitem" class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);"><span class="scpop-sr-only">Next item</span>&#187;</a>`;
     tmpTxt += `</div>`;
     tmpTxt += `<div role="list" class="scpop__inner">` + slides.join("") + `</div>`;
 
