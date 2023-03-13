@@ -28,7 +28,7 @@ window.addEventListener('load', function(){
     });
 });
 
-function scpopLoad(selector){
+function scpopLoad(selector){    
     scpop.pops.push({currentSlide: 0});
     let pop = scpop.pops.length-1;
 
@@ -52,7 +52,7 @@ function scpopLoad(selector){
                 tmpCaption = `<div class="scpop__item_caption">` + elm.getAttribute('title') + `</div>`;
                 alt = elm.getAttribute('title').replace('"',"'");
             }
-            slides.push(`<div role="listitem" class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><img alt="` + alt + `" data-src="` + tmpElm.href + `" />` + tmpCaption + `</div>`);
+            slides.push(`<li class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><img alt="` + alt + `" data-src="` + tmpElm.href + `" />` + tmpCaption + `</li>`);
             tmpElm.href = 'javascript:scpopShow(' + pop + ',' + indx + ');';
             tmpElm.removeAttribute('target');
         }
@@ -76,7 +76,7 @@ function scpopLoad(selector){
                 src = 'https://player.vimeo.com/video/' + srcMatchVimeos[1] + '?autoplay=1';
             }
 
-            slides.push(`<div role="listitem" class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><iframe frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-src="` + src + `"></iframe>` + tmpCaption + `</div>`);
+            slides.push(`<li class="scpop__item" onclick="scpopClose(` + pop + `);" id="scpop_` + pop + `_` + indx + `"><iframe frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen data-src="` + src + `"></iframe>` + tmpCaption + `</li>`);
             tmpElm.href = 'javascript:scpopShow(' + pop + ',' + indx + ');';
             tmpElm.removeAttribute('target');
         }
@@ -84,12 +84,12 @@ function scpopLoad(selector){
 
     let tmpDiv = (<HTMLDivElement>document.createElement('div'));
     tmpDiv.className = 'scpop scpop' + pop;
-    let tmpTxt = `<div role="list" class="scpop__toolbar">`;
-    tmpTxt += `<a role="listitem" class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);"><span class="scpop-sr-only">Close</span>&#215;</a>`;
-    tmpTxt += `<a role="listitem" class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);"><span class="scpop-sr-only">Previous item</span>&#171;</a>`;
-    tmpTxt += `<a role="listitem" class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);"><span class="scpop-sr-only">Next item</span>&#187;</a>`;
-    tmpTxt += `</div>`;
-    tmpTxt += `<div role="list" class="scpop__inner">` + slides.join("") + `</div>`;
+    let tmpTxt = `<ul class="scpop__toolbar">`;
+    tmpTxt += `<li><a class="scpop__toolbar_close" href="javascript:scpopClose(` + pop + `);"><span class="scpop-sr-only">Close</span>&#215;</a></li>`;
+    tmpTxt += `<li><a class="scpop__toolbar_prev" href="javascript:scpopPrev(` + pop + `);"><span class="scpop-sr-only">Previous item</span>&#171;</a></li>`;
+    tmpTxt += `<li><a class="scpop__toolbar_next" href="javascript:scpopNext(` + pop + `);"><span class="scpop-sr-only">Next item</span>&#187;</a></li>`;
+    tmpTxt += `</ul>`;
+    tmpTxt += `<ul class="scpop__inner">` + slides.join("") + `</ul>`;
 
     tmpDiv.innerHTML = tmpTxt;
     document.body.appendChild(tmpDiv);
